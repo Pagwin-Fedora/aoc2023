@@ -3,19 +3,6 @@ module Lib
     firstLast,
     digitTransform) where
 
-isDigit :: Char -> Bool
-isDigit '0' = True
-isDigit '1' = True
-isDigit '2' = True
-isDigit '3' = True
-isDigit '4' = True
-isDigit '5' = True
-isDigit '6' = True
-isDigit '7' = True
-isDigit '8' = True
-isDigit '9' = True
-isDigit _ = False
-
 digitTransform :: String -> [Integer]
 digitTransform [] = []
 digitTransform str | numStart '1' "one" str = 1 : digitTransform (tail str)
@@ -32,6 +19,7 @@ digitTransform str = digitTransform $ tail str
 numStart :: Char -> String -> String -> Bool
 numStart shortHand longHand str | take (length longHand) str == longHand || head str == shortHand = True
 numStart _ _ _ = False
+
 firstLast :: [a] -> (a, a)
 firstLast list = (head list, last list)
 

@@ -1,7 +1,7 @@
 module Lib
-    (onlyDigits) where
-import Data.Char (toLower)
-import Data.String.Utils (replace)
+    (combine,
+    firstLast,
+    digitTransform) where
 
 isDigit :: Char -> Bool
 isDigit '0' = True
@@ -16,19 +16,24 @@ isDigit '8' = True
 isDigit '9' = True
 isDigit _ = False
 
-onlyDigits :: String -> [Char]
-onlyDigits = filter isDigit-- . digitTransform . map toLower
+digitTransform :: String -> [Integer]
+digitTransform [] = []
+digitTransform str | numStart '1' "one" str = 1 : digitTransform (tail str)
+digitTransform str | numStart '2' "two" str = 2 : digitTransform (tail str)
+digitTransform str | numStart '3' "three" str = 3 : digitTransform (tail str)
+digitTransform str | numStart '4' "four" str = 4 : digitTransform (tail str)
+digitTransform str | numStart '5' "five" str = 5 : digitTransform (tail str)
+digitTransform str | numStart '6' "six" str = 6 : digitTransform (tail str)
+digitTransform str | numStart '7' "seven" str = 7 : digitTransform (tail str)
+digitTransform str | numStart '8' "eight" str = 8 : digitTransform (tail str)
+digitTransform str | numStart '9' "nine" str = 9 : digitTransform (tail str)
+digitTransform str = digitTransform $ tail str
 
-nums = map (map toLower) ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-digitTransform :: String -> String
-digitTransform = 
-    replace (nums !! 0) (show 0) .
-    replace (nums !! 1) (show 1) .
-    replace (nums !! 2) (show 2) .
-    replace (nums !! 3) (show 3) .
-    replace (nums !! 4) (show 4) .
-    replace (nums !! 5) (show 5) .
-    replace (nums !! 6) (show 6) .
-    replace (nums !! 7) (show 7) .
-    replace (nums !! 8) (show 8) .
-    replace (nums !! 9) (show 9)
+numStart :: Char -> String -> String -> Bool
+numStart shortHand longHand str | take (length longHand) str == longHand || head str == shortHand = True
+numStart _ _ _ = False
+firstLast :: [a] -> (a, a)
+firstLast list = (head list, last list)
+
+combine :: Show a => (a, a) -> String
+combine (a, b) = show a ++ show b

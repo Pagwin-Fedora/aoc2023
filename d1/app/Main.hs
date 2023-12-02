@@ -13,10 +13,5 @@ processLines = show . sum . map processLine <$> hGetLines stdin
 
 processLine :: String -> Integer
 processLine "" = 0
-processLine line = read . combine . firstLast . onlyDigits $ line
+processLine line = read . combine . firstLast . digitTransform $ line
 
-firstLast :: [Char] -> (Char, Char)
-firstLast list = (head list, last list)
-
-combine :: (Char, Char) -> [Char]
-combine (a, b) = [a, b]
